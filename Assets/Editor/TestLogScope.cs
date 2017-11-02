@@ -7,11 +7,11 @@ public class TestLogScope
     public void TestLogScopeNesting()
     {
         LogContext logContext = new LogContext();
-        using (LogScope logScope1 = new LogScope(logContext, "scope 1"))
+        using (new LogScope(logContext, "scope 1"))
         {
             Assert.AreEqual("scope 1", logContext.Get());
 
-            using (LogScope logScope2 = new LogScope(logContext, "scope 2"))
+            using (new LogScope(logContext, "scope 2"))
             {
                 // Ensure log scopes flatten in first-to-last order
                 Assert.AreEqual("scope 1.scope 2", logContext.Get());

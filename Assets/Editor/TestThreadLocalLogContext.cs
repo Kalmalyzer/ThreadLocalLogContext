@@ -5,7 +5,7 @@ public class TestThreadLocalLogContext
 {
     private static void innerThreadFunction()
     {
-        using (LogScope logScope = ThreadLocalLogContext.Scope("inner thread scope"))
+        using (ThreadLocalLogContext.Scope("inner thread scope"))
         {
             Assert.AreEqual("inner thread scope", ThreadLocalLogContext.LogContextForCurrentThread.Value.Get());
         }
@@ -13,7 +13,7 @@ public class TestThreadLocalLogContext
 
     private static void outerThreadFunction()
     {
-        using (LogScope logScope = ThreadLocalLogContext.Scope("outer thread scope"))
+        using (ThreadLocalLogContext.Scope("outer thread scope"))
         {
             Assert.AreEqual("outer thread scope", ThreadLocalLogContext.LogContextForCurrentThread.Value.Get());
 
