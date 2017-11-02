@@ -2,12 +2,15 @@
 
 public class LogScope : IDisposable
 {
-    private LogContext context;
+    private readonly LogContext context;
+
+    public readonly string Name;
 
     public LogScope(LogContext context, string name)
     {
         this.context = context;
-        context.Enter(name);
+        Name = name;
+        context.Enter(this);
     }
 
     #region IDisposable Support
@@ -25,7 +28,7 @@ public class LogScope : IDisposable
             // Free unmanaged resources (unmanaged objects) and override a finalizer below.
             // Set large fields to null.
 
-            context.Exit();
+            context.Exit(this);
 
             disposedValue = true;
         }

@@ -1,23 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class LogContext
 {
-    public List<string> stack = new List<string>();
+    private List<LogScope> stack = new List<LogScope>();
 
-    public List<string> Messages = new List<string>();
-
-    public void Enter(string name)
+    public void Enter(LogScope scope)
     {
-        stack.Add(name);
+        stack.Add(scope);
     }
 
     public string Get()
     {
-        return string.Join(".", stack.ToArray());
+        return string.Join(".", stack.Select(scope => scope.Name).ToArray());
     }
 
-    public void Exit()
+    public void Exit(LogScope scope)
     {
-        stack.RemoveAt(stack.Count - 1);
+        if (stack[stack.Count - 1] != scope)
+            throw new System.Exception("Incorrect scope winding order: current stack is " + Get() + " when attempting to exit scope " + scope.Name);
+        else
+           stack.RemoveAt(stack.Count - 1);
     }
 }
